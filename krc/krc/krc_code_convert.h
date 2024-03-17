@@ -18,7 +18,7 @@
 /////////////////////////////////////////////////////////////////////////////
 //===========================================================================
 KRC_API krc_uint_t krc_code_type_cp949(krc_char16_t ch);
-KRC_API krc_uint_t krc_char_type_unicode(krc_wchar_t ch);
+KRC_API krc_uint_t krc_code_type_unicode(krc_wchar_t ch);
 
 
 
