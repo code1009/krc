@@ -158,8 +158,8 @@ void test1(void)
 
 	/////////////////////////////////////////////////////////////////////////
 	//-----------------------------------------------------------------------
-	char    src_mbcs[] = { "AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
-	wchar_t src_wcs[] = { L"AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
+	char    src_mbcs[] = { "A샾Zaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
+	wchar_t src_wcs[] = { L"A샾Zaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
 	char    dst_mbcs[1024];
 	wchar_t dst_wcs[1024];
 
@@ -236,8 +236,8 @@ void test1(void)
 	wcs_len = krc_cp949_to_unicode(mbcs, mbcs_len, (krc_wchar_t*)utf8, wcs_size);
 	tracelnA("//-----------------------------------------------------------------------");
 	traceflnA("%d->%d", 0, wcs_len); printf("\r\n");
-	tracelnA(mbcs);
-	tracelnW(utf8);
+	//tracelnA(mbcs);
+	//tracelnW(utf8);
 
 
 	/////////////////////////////////////////////////////////////////////////
@@ -250,8 +250,37 @@ void test1(void)
 	mbcs_len = krc_unicode_to_cp949((krc_wchar_t*)utf8, wcs_len, mbcs, mbcs_size);
 	tracelnA("//-----------------------------------------------------------------------");
 	traceflnA("%d->%d", 0, mbcs_len); printf("\r\n");
-	tracelnW(utf8);
-	tracelnA(mbcs);
+	//tracelnW(utf8);
+	//tracelnA(mbcs);
+
+
+
+	/////////////////////////////////////////////////////////////////////////
+	//-----------------------------------------------------------------------
+	mbcs = src_mbcs;
+	mbcs_size = sizeof(src_mbcs);
+	mbcs_len = strlen(src_mbcs);
+	utf8 = 0;
+	wcs_size = sizeof(dst_wcs);
+	wcs_len = krc_cp949_to_unicode(mbcs, mbcs_len, (krc_wchar_t*)utf8, wcs_size);
+	tracelnA("//-----------------------------------------------------------------------");
+	traceflnA("%d->%d", 0, wcs_len); printf("\r\n");
+	//tracelnA(mbcs);
+	//tracelnW(utf8);
+
+
+	/////////////////////////////////////////////////////////////////////////
+	//-----------------------------------------------------------------------
+	utf8 = src_wcs;
+	wcs_size = sizeof(src_wcs);
+	wcs_len = wcslen(src_wcs);
+	mbcs = 0;
+	mbcs_size = sizeof(dst_mbcs);
+	mbcs_len = krc_unicode_to_cp949((krc_wchar_t*)utf8, wcs_len, mbcs, mbcs_size);
+	tracelnA("//-----------------------------------------------------------------------");
+	traceflnA("%d->%d", 0, mbcs_len); printf("\r\n");
+	//tracelnW(utf8);
+	//tracelnA(mbcs);
 }
 
 
@@ -327,12 +356,11 @@ std::string mbcs_to_utf8(std::string /*input*/mbcs, UINT codepage = CP_ACP)
 	return utf8;
 }
 
-
 void test2(void)
 {
 	/////////////////////////////////////////////////////////////////////////
 	//-----------------------------------------------------------------------
-	char test_mbcs_c_string[] = { "AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
+	char test_mbcs_c_string[] = { "A샾Zaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
 	std::string test_utf8_cpp_string = mbcs_to_utf8(test_mbcs_c_string);
 
 	char* src_mbcs_ptr = (char*)test_mbcs_c_string;

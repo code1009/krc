@@ -359,7 +359,7 @@ KRC_API krc_int_t krc_hanja_4888_index_cp949 (krc_char16_t ch)
 // 
 /////////////////////////////////////////////////////////////////////////////
 //===========================================================================
-KRC_API krc_bool_t krc_hangul_11172_cp949_to_unicode (krc_char16_t cp949, krc_wchar_t* unicode)
+KRC_API krc_bool_t krc_hangul_51_11172_cp949_to_unicode (krc_char16_t cp949, krc_wchar_t* unicode)
 {
 	krc_int_t index;
 
@@ -420,7 +420,7 @@ KRC_API krc_bool_t krc_hanja_4888_cp949_to_unicode (krc_char16_t cp949, krc_wcha
 // 
 /////////////////////////////////////////////////////////////////////////////
 //===========================================================================
-KRC_API krc_bool_t krc_hangul_11172_unicode_to_cp949 (krc_wchar_t unicode, krc_char16_t* cp949)
+KRC_API krc_bool_t krc_hangul_51_11172_unicode_to_cp949 (krc_wchar_t unicode, krc_char16_t* cp949)
 {
 	krc_int_t index;
 
@@ -520,8 +520,11 @@ static void mbcs_ostream_put_char(mbcs_ostream* ctx, krc_char_t c)
 {
 	if (ctx->offset < ctx->max_length)
 	{
-		*(ctx->pointer + ctx->offset) = c;
-		ctx->offset++;
+		if (ctx->pointer)
+		{
+			*(ctx->pointer + ctx->offset) = c;
+			ctx->offset++;
+		}
 	}
 
 	if (c)
@@ -534,8 +537,11 @@ static void mbcs_ostream_put_char8(mbcs_ostream* ctx, krc_char8_t c)
 {
 	if (ctx->offset < ctx->max_length)
 	{
-		*(ctx->pointer + ctx->offset) = (krc_char_t)c;
-		ctx->offset++;
+		if (ctx->pointer)
+		{
+			*(ctx->pointer + ctx->offset) = (krc_char_t)c;
+			ctx->offset++;
+		}
 	}
 
 	if (c)
@@ -548,11 +554,14 @@ static void mbcs_ostream_put_char16(mbcs_ostream* ctx, krc_char16_t c)
 {
 	if (ctx->offset+1 < ctx->max_length)
 	{
-		*(ctx->pointer + ctx->offset) = (krc_char_t)((c & 0xFF00u) >> 8u);
-		ctx->offset++;
+		if (ctx->pointer)
+		{
+			*(ctx->pointer + ctx->offset) = (krc_char_t)((c & 0xFF00u) >> 8u);
+			ctx->offset++;
 
-		*(ctx->pointer + ctx->offset) = (krc_char_t)(c & 0x00FFu);
-		ctx->offset++;
+			*(ctx->pointer + ctx->offset) = (krc_char_t)(c & 0x00FFu);
+			ctx->offset++;
+		}
 	}
 
 	if (c)
@@ -583,8 +592,11 @@ static void wcs_ostream_put_wchar(wcs_ostream* ctx, krc_wchar_t c)
 {
 	if (ctx->offset < ctx->max_length)
 	{
-		*(ctx->pointer + ctx->offset) = c;
-		ctx->offset++;
+		if (ctx->pointer)
+		{
+			*(ctx->pointer + ctx->offset) = c;
+			ctx->offset++;
+		}
 	}
 
 	if (c)
@@ -642,7 +654,7 @@ KRC_API krc_int_t krc_unicode_to_cp949(krc_wchar_t* wcs_string, krc_int_t wcs_le
 			mbcs_ostream_put_char8(&o, ch1);
 		}
 
-		else if (krc_hangul_11172_unicode_to_cp949  (wcs, &mbcs) == KRC_TRUE)
+		else if (krc_hangul_51_11172_unicode_to_cp949  (wcs, &mbcs) == KRC_TRUE)
 		{		
 			mbcs_ostream_put_char16(&o, mbcs);
 		}
@@ -712,7 +724,7 @@ KRC_API krc_int_t krc_cp949_to_unicode(krc_char_t* mbcs_string, krc_int_t mbcs_l
 				mbcs = (ch1 << 8u) | ch2;
 
 
-				if (krc_hangul_11172_cp949_to_unicode(mbcs, &wcs) == KRC_TRUE)
+				if (krc_hangul_51_11172_cp949_to_unicode(mbcs, &wcs) == KRC_TRUE)
 				{
 					wcs_ostream_put_wchar(&o, wcs);
 					index++;
@@ -1031,7 +1043,7 @@ KRC_API krc_int_t krc_cp949_to_utf8(krc_char_t* cp949_string, krc_int_t cp949_le
 				mbcs = (ch1 << 8u) | ch2;
 
 
-				if (krc_hangul_11172_cp949_to_unicode(mbcs, &wcs) == KRC_TRUE)
+				if (krc_hangul_51_11172_cp949_to_unicode(mbcs, &wcs) == KRC_TRUE)
 				{
 					mbcs_ostream_put_utf8_from_unicode(&o, wcs);
 					index++;
@@ -1144,7 +1156,7 @@ KRC_API krc_int_t krc_utf8_to_cp949(krc_char_t* utf8_string, krc_int_t utf8_leng
 			mbcs_ostream_put_char8(&o, ch1);
 		}
 
-		else if (krc_hangul_11172_unicode_to_cp949(wcs, &mbcs) == KRC_TRUE)
+		else if (krc_hangul_51_11172_unicode_to_cp949(wcs, &mbcs) == KRC_TRUE)
 		{
 			mbcs_ostream_put_char16(&o, mbcs);
 		}
