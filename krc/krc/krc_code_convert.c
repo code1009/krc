@@ -535,7 +535,7 @@ KRC_API krc_bool_t krc_hangul_51_11172_unicode_to_cp949 (krc_wchar_t unicode, kr
 
 KRC_API krc_bool_t krc_special_1128_unicode_to_cp949 (krc_wchar_t unicode, krc_char16_t* cp949)
 {
-	if (KRC_CODE_TYPE_SPECIAL_1128 != krc_char_type_unicode(unicode))
+	if (KRC_CODE_TYPE_SPECIAL_1128 != krc_code_type_unicode(unicode))
 	{
 		return KRC_FALSE;
 	}
@@ -559,7 +559,7 @@ KRC_API krc_bool_t krc_special_1128_unicode_to_cp949 (krc_wchar_t unicode, krc_c
 
 KRC_API krc_bool_t krc_hanja_4888_unicode_to_cp949 (krc_wchar_t unicode, krc_char16_t* cp949)
 {
-	if (KRC_CODE_TYPE_HANJA_4888 != krc_char_type_unicode(unicode))
+	if (KRC_CODE_TYPE_HANJA_4888 != krc_code_type_unicode(unicode))
 	{
 		return KRC_FALSE;
 	}
