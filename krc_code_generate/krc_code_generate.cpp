@@ -578,7 +578,7 @@ std::string get_file_path(std::string file_name)
 	std::string file_path;
 
 
-	file_path = get_directory_of_current_process() + "../" + file_name;
+	file_path = get_directory_of_current_process() + "../krc_code/" + file_name;
 
 	return file_path;
 }
