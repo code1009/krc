@@ -158,13 +158,18 @@ void test1(void)
 
 	/////////////////////////////////////////////////////////////////////////
 	//-----------------------------------------------------------------------
-	char    mbcs_string[] = { "AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
-	wchar_t wcs_string[] = { L"AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
+	char    src_mbcs[] = { "AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
+	wchar_t src_wcs[] = { L"AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
+	char    dst_mbcs[1024];
+	wchar_t dst_wcs[1024];
 
-	char    mbcs[56+1];
-	wchar_t wcs[56+1];
-	int     mbcs_length;
-	int     wcs_length;
+
+	char*    mbcs;
+	wchar_t* utf8;
+	int      mbcs_size;
+	int      wcs_size;
+	int      mbcs_len;
+	int      wcs_len;
 
 
 	//-----------------------------------------------------------------------
@@ -172,26 +177,40 @@ void test1(void)
 
 
 	//-----------------------------------------------------------------------
-	memset(mbcs, 0, sizeof(mbcs));
-	memset(wcs, 0, sizeof(wcs));
+	mbcs = dst_mbcs;
+	utf8 = dst_wcs;
+	mbcs_size = sizeof(dst_mbcs);
+	wcs_size = sizeof(dst_wcs);
+	memset(mbcs, 0, mbcs_size);
+	memset(utf8, 0, wcs_size);
 
 
 
 
 	/////////////////////////////////////////////////////////////////////////
 	//-----------------------------------------------------------------------
-	wcs_length = krc_cp949_to_unicode(&mbcs_string[0], strlen(mbcs_string), (krc_wchar_t*)&wcs[0], 1024);
+	mbcs = src_mbcs;
+	mbcs_size = sizeof(src_mbcs);
+	mbcs_len = strlen(src_mbcs);
+	utf8 = dst_wcs;
+	wcs_size = sizeof(dst_wcs);
+	wcs_len = krc_cp949_to_unicode(mbcs, mbcs_len, (krc_wchar_t*)utf8, wcs_size);
 	tracelnA("//-----------------------------------------------------------------------");
-	traceflnA("%d->%d", strlen(mbcs_string), wcs_length);
-	tracelnA(mbcs_string);
-	tracelnW(wcs);
+	traceflnA("%d->%d", mbcs_len, wcs_len);
+	tracelnA(mbcs);
+	tracelnW(utf8);
 
 
 	//-----------------------------------------------------------------------
-	mbcs_length = krc_unicode_to_cp949((krc_wchar_t*)&wcs_string[0], wcslen(wcs_string), &mbcs[0], 1024);
+	utf8 = src_wcs;
+	wcs_size = sizeof(src_wcs);
+	wcs_len = wcslen(src_wcs);
+	mbcs = dst_mbcs;
+	mbcs_size = sizeof(dst_mbcs);
+	mbcs_len = krc_unicode_to_cp949((krc_wchar_t*)utf8, wcs_len, mbcs, mbcs_size);
 	tracelnA("//-----------------------------------------------------------------------");
-	traceflnA("%d->%d", wcslen(wcs_string), mbcs_length);
-	tracelnW(wcs_string);
+	traceflnA("%d->%d", wcs_len, mbcs_len);
+	tracelnW(utf8);
 	tracelnA(mbcs);
 
 
@@ -199,29 +218,39 @@ void test1(void)
 
 	/////////////////////////////////////////////////////////////////////////
 	//-----------------------------------------------------------------------
-	memset(mbcs, 0, sizeof(mbcs));
-	memset(wcs, 0, sizeof(wcs));
+	memset(dst_mbcs, 0, sizeof(dst_mbcs));
+	memset(dst_wcs, 0, sizeof(dst_wcs));
 
-	memset(mbcs, 0xFF, sizeof(mbcs) - 1);
-	memset(wcs, 0xFF, sizeof(wcs) - 2);
+	memset(dst_mbcs, 0xFF, sizeof(dst_mbcs) - 1);
+	memset(dst_wcs, 0xFF, sizeof(dst_wcs) - 2);
 
-
-
-	/////////////////////////////////////////////////////////////////////////
-	//-----------------------------------------------------------------------
-	wcs_length = krc_cp949_to_unicode(&mbcs_string[0], 0, (krc_wchar_t*)&wcs[0], 0);
-	tracelnA("//-----------------------------------------------------------------------");
-	traceflnA("%d->%d", 0, wcs_length); printf("\r\n");
-	tracelnA(mbcs_string);
-	tracelnW(wcs);
 
 
 	/////////////////////////////////////////////////////////////////////////
 	//-----------------------------------------------------------------------
-	mbcs_length = krc_unicode_to_cp949((krc_wchar_t*)&wcs_string[0], 0, &mbcs[0], 0);
+	mbcs = src_mbcs;
+	mbcs_size = sizeof(src_mbcs);
+	mbcs_len = 0;// strlen(src_mbcs);
+	utf8 = dst_wcs;
+	wcs_size = sizeof(dst_wcs);
+	wcs_len = krc_cp949_to_unicode(mbcs, mbcs_len, (krc_wchar_t*)utf8, wcs_size);
 	tracelnA("//-----------------------------------------------------------------------");
-	traceflnA("%d->%d", 0, mbcs_length); printf("\r\n");
-	tracelnW(wcs_string);
+	traceflnA("%d->%d", 0, wcs_len); printf("\r\n");
+	tracelnA(mbcs);
+	tracelnW(utf8);
+
+
+	/////////////////////////////////////////////////////////////////////////
+	//-----------------------------------------------------------------------
+	utf8 = src_wcs;
+	wcs_size = sizeof(src_wcs);
+	wcs_len = 0;// wcslen(src_wcs);
+	mbcs = dst_mbcs;
+	mbcs_size = sizeof(dst_mbcs);
+	mbcs_len = krc_unicode_to_cp949((krc_wchar_t*)utf8, wcs_len, mbcs, mbcs_size);
+	tracelnA("//-----------------------------------------------------------------------");
+	traceflnA("%d->%d", 0, mbcs_len); printf("\r\n");
+	tracelnW(utf8);
 	tracelnA(mbcs);
 }
 
@@ -303,49 +332,75 @@ void test2(void)
 {
 	/////////////////////////////////////////////////////////////////////////
 	//-----------------------------------------------------------------------
-	char    mbcs_string[] = { "AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
-	char mbcs[1024];
-	char cp949[1024];
+	char test_mbcs_c_string[] = { "AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
+	std::string test_utf8_cpp_string = mbcs_to_utf8(test_mbcs_c_string);
 
-	std::string utf8_string;
+	char* src_mbcs_ptr = (char*)test_mbcs_c_string;
+	int src_mbcs_len = strlen(test_mbcs_c_string);
 
-	int mbcs_size;
-	int cp949_size;
-	int cmp;
+	char* src_utf8_ptr = (char*)test_utf8_cpp_string.c_str();
+	int src_utf8_len = (int)test_utf8_cpp_string.size();
 
 
-	utf8_string = mbcs_to_utf8(mbcs_string);
-	mbcs_size = krc_utf8_to_cp949((krc_char_t*)utf8_string.c_str(), (krc_int_t)utf8_string.size(),
-		mbcs, 1024);
+	char dst_mbcs[1024];
+	char dst_utf8[1024];
 
-	tracelnA(mbcs);
+	char* mbcs;
+	char* utf8;
+	int   mbcs_size;
+	int   utf8_size;
+	int   mbcs_len;
+	int   utf8_len;
+	int   cmp;
 
-	cmp = memcmp((krc_char_t*)mbcs_string, mbcs, (krc_int_t)strlen(mbcs_string));
+
+	utf8 = src_utf8_ptr;
+	utf8_size = src_utf8_len + 1;
+	utf8_len = src_utf8_len;
+	mbcs = dst_mbcs;
+	mbcs_size = sizeof(dst_mbcs);
+	mbcs_len = krc_utf8_to_cp949(utf8, utf8_len, mbcs, mbcs_size);
+	cmp = memcmp(mbcs, src_mbcs_ptr, mbcs_len);
 	if (0 == cmp)
 	{
-		tracelnA("krc_utf8_to_cp949() ok");
+		if (mbcs_len == src_mbcs_len)
+		{
+			tracelnA("krc_utf8_to_cp949() ok");
+		}
+		else
+		{
+			tracelnA("krc_utf8_to_cp949() fail");
+		}
 	}
 	else
 	{
-		tracelnA("krc_utf8_to_cp949() failed");
+		tracelnA("krc_utf8_to_cp949() fail");
 	}
 	tracelnA("\r\n");
 
 
-
-	cp949_size = krc_cp949_to_utf8((krc_char_t*)mbcs_string, strlen(mbcs_string),
-		cp949, 1024);
-
-	cmp = memcmp((krc_char_t*)utf8_string.c_str(), cp949, (krc_int_t)utf8_string.size());
+	mbcs = src_mbcs_ptr;
+	mbcs_size = src_mbcs_len + 1;
+	mbcs_len = src_mbcs_len;
+	utf8 = dst_utf8;
+	utf8_size = sizeof(dst_utf8);
+	utf8_len = krc_cp949_to_utf8(mbcs, mbcs_size, utf8, utf8_size);
+	cmp = memcmp(utf8, src_utf8_ptr, utf8_len);
 	if (0 == cmp)
 	{
-		tracelnA("krc_cp949_to_utf8() ok");
+		if (utf8_len == src_utf8_len)
+		{
+			tracelnA("krc_cp949_to_utf8() ok");
+		}
+		else
+		{
+			tracelnA("krc_cp949_to_utf8() fail");
+		}
 	}
 	else
 	{
-		tracelnA("krc_cp949_to_utf8() failed");
+		tracelnA("krc_cp949_to_utf8() fail");
 	}
-
 	tracelnA("\r\n");
 }
 
