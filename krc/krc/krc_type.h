@@ -30,6 +30,8 @@ typedef unsigned short int krc_wchar_t;
 typedef unsigned char      krc_char8_t;
 typedef unsigned short int krc_char16_t;
 
+typedef unsigned long  int krc_wchar32_t;
+
 
 
 

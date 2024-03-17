@@ -7,7 +7,7 @@
     <ClCompile Include="krc\krc_code_table.c">
       <Filter>krc</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
+    <ClCompile Include="main.cpp">
       <Filter>main</Filter>
     </ClCompile>
   </ItemGroup>

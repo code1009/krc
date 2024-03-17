@@ -51,6 +51,15 @@ KRC_API krc_int_t krc_unicode_to_cp949(krc_wchar_t* wcs_string, krc_int_t wcs_le
 
 
 
+/////////////////////////////////////////////////////////////////////////////
+//===========================================================================
+KRC_API krc_int_t krc_cp949_to_utf8(krc_char_t* cp949_string, krc_int_t cp949_length, krc_char_t* utf8_string, krc_int_t utf8_length);
+KRC_API krc_int_t krc_utf8_to_cp949(krc_char_t* utf8_string, krc_int_t utf8_length, krc_char_t* cp949_string, krc_int_t cp949_length);
+
+
+
+
+
 #endif
 
 
