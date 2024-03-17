@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="krc\krc_code_convert.c">
+      <Filter>krc</Filter>
+    </ClCompile>
+    <ClCompile Include="krc\krc_code_table.c">
+      <Filter>krc</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>main</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="krc">
+      <UniqueIdentifier>{cb6eb1aa-d2c0-491c-bcf5-731260b65e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{27b2125f-5ad3-4ed6-89cd-1b79ebc33d97}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="krc\krc.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_code_convert.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_code_table.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_code_table_hangul_11172_cp949__to_unicode.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_code_table_hangul_11172_unicode_to_cp949.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_code_table_hanja_4888_cp949_to_unicode.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_code_table_special_1128_cp949_to_unicode.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_config.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_type.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_code_type.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+    <ClInclude Include="krc\krc_api.h">
+      <Filter>krc</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
