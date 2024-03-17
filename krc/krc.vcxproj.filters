@@ -29,7 +29,7 @@
     <ClInclude Include="krc\krc_code_table.h">
       <Filter>krc</Filter>
     </ClInclude>
-    <ClInclude Include="krc\krc_code_table_hangul_11172_cp949__to_unicode.h">
+    <ClInclude Include="krc\krc_code_table_hangul_11172_cp949_to_unicode.h">
       <Filter>krc</Filter>
     </ClInclude>
     <ClInclude Include="krc\krc_code_table_hangul_11172_unicode_to_cp949.h">

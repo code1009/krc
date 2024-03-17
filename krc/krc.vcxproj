@@ -156,7 +156,7 @@
     <ClInclude Include="krc\krc_api.h" />
     <ClInclude Include="krc\krc_code_convert.h" />
     <ClInclude Include="krc\krc_code_table.h" />
-    <ClInclude Include="krc\krc_code_table_hangul_11172_cp949__to_unicode.h" />
+    <ClInclude Include="krc\krc_code_table_hangul_11172_cp949_to_unicode.h" />
     <ClInclude Include="krc\krc_code_table_hangul_11172_unicode_to_cp949.h" />
     <ClInclude Include="krc\krc_code_table_hanja_4888_cp949_to_unicode.h" />
     <ClInclude Include="krc\krc_code_table_special_1128_cp949_to_unicode.h" />
