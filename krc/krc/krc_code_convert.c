@@ -37,7 +37,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 //===========================================================================
-KRC_API krc_uint_t krc_code_type_cp949(krc_uchar16_t ch)
+KRC_API krc_uint_t krc_code_type_cp949(krc_char16_t ch)
 {
 	//-----------------------------------------------------------------------
 	if (0x0000u <= ch && ch <= 0x007Fu)
@@ -213,7 +213,7 @@ KRC_API krc_uint_t krc_char_type_unicode(krc_wchar_t ch)
 
 /////////////////////////////////////////////////////////////////////////////
 //===========================================================================
-KRC_API krc_int_t krc_hangul_11172_index_cp949 (krc_uchar16_t ch)
+KRC_API krc_int_t krc_hangul_11172_index_cp949 (krc_char16_t ch)
 {
 	krc_uint_t offset;
 
@@ -299,7 +299,7 @@ KRC_API krc_int_t krc_hangul_11172_index_cp949 (krc_uchar16_t ch)
 	return index;
 }
 
-KRC_API krc_int_t krc_special_1128_index_cp949 (krc_uchar16_t ch)
+KRC_API krc_int_t krc_special_1128_index_cp949 (krc_char16_t ch)
 {
 	krc_uint_t offset;
 
@@ -324,7 +324,7 @@ KRC_API krc_int_t krc_special_1128_index_cp949 (krc_uchar16_t ch)
 	return -1;
 }
 
-KRC_API krc_int_t krc_hanja_4888_index_cp949 (krc_uchar16_t ch)
+KRC_API krc_int_t krc_hanja_4888_index_cp949 (krc_char16_t ch)
 {
 	krc_uint_t offset;
 
@@ -354,8 +354,12 @@ KRC_API krc_int_t krc_hanja_4888_index_cp949 (krc_uchar16_t ch)
 
 
 /////////////////////////////////////////////////////////////////////////////
+// 
+// cp949_to_unicode 
+// 
+/////////////////////////////////////////////////////////////////////////////
 //===========================================================================
-KRC_API krc_bool_t krc_hangul_11172_cp949_to_unicode (krc_uchar16_t cp949, krc_wchar_t* unicode)
+KRC_API krc_bool_t krc_hangul_11172_cp949_to_unicode (krc_char16_t cp949, krc_wchar_t* unicode)
 {
 	krc_int_t index;
 
@@ -378,7 +382,7 @@ KRC_API krc_bool_t krc_hangul_11172_cp949_to_unicode (krc_uchar16_t cp949, krc_w
 	return KRC_TRUE;
 }
 
-KRC_API krc_bool_t krc_special_1128_cp949_to_unicode (krc_uchar16_t cp949, krc_wchar_t* unicode)
+KRC_API krc_bool_t krc_special_1128_cp949_to_unicode (krc_char16_t cp949, krc_wchar_t* unicode)
 {
 	krc_int_t index;
 
@@ -392,7 +396,7 @@ KRC_API krc_bool_t krc_special_1128_cp949_to_unicode (krc_uchar16_t cp949, krc_w
 	return KRC_TRUE;
 }
 
-KRC_API krc_bool_t krc_hanja_4888_cp949_to_unicode (krc_uchar16_t cp949, krc_wchar_t* unicode)
+KRC_API krc_bool_t krc_hanja_4888_cp949_to_unicode (krc_char16_t cp949, krc_wchar_t* unicode)
 {
 	krc_int_t index;
 
@@ -406,83 +410,17 @@ KRC_API krc_bool_t krc_hanja_4888_cp949_to_unicode (krc_uchar16_t cp949, krc_wch
 	return KRC_TRUE;
 }
 
-//===========================================================================
-KRC_API krc_int_t krc_cp949_to_unicode(krc_char_t* mbcs_string, krc_int_t mbcs_length, krc_wchar_t* wcs_string, krc_int_t wcs_length)
-{
-	krc_wchar_t   unicode;
-	krc_uchar16_t ch2;
-	krc_byte_t    ch1;
-	krc_int_t     wcs_index;
-	krc_int_t     mbcs_index;
-
-
-	wcs_index = 0;
-	for (mbcs_index=0; *(mbcs_string+mbcs_index)!=0x00u; mbcs_index++)
-	{
-		if (wcs_length>=0 && wcs_index>=wcs_length)
-			break;
-
-		if (mbcs_length>=0 && mbcs_index>=mbcs_length)
-			break;
-
-
-		ch1 = *(mbcs_string+mbcs_index);
-		
-
-		if (ch1 < 0x80u)
-		{
-			// ASCII
-			*(wcs_string+wcs_index) = ch1;
-			wcs_index ++;
-		}
-		else
-		{
-			ch2 = (krc_byte_t) *(mbcs_string+mbcs_index+1u);
-			ch2 = (ch1 << 8u) | ch2;
-
-			if      (krc_hangul_11172_cp949_to_unicode  (ch2, &unicode) == KRC_TRUE)
-			{
-				*(wcs_string+wcs_index) = unicode;
-				wcs_index ++;
-				mbcs_index++;
-			}
-
-			else if (krc_special_1128_cp949_to_unicode (ch2, &unicode) == KRC_TRUE)
-			{
-				*(wcs_string+wcs_index) = unicode;
-				wcs_index ++;
-				mbcs_index++;
-			}
-
-			else if (krc_hanja_4888_cp949_to_unicode   (ch2, &unicode) == KRC_TRUE)
-			{
-				*(wcs_string+wcs_index) = unicode;
-				wcs_index ++;
-				mbcs_index++;
-			}
-
-			else
-			{
-				*(wcs_string+wcs_index) = 0x003fu; // '?'
-				wcs_index ++;
-			}
-		}
-	}
-	if (wcs_index<wcs_length)
-	{
-		*(wcs_string+wcs_index) = 0x0000u;
-	}
-	
-	return wcs_index;
-}
-
 
 
 
 
 /////////////////////////////////////////////////////////////////////////////
+// 
+// unicode_to_cp949
+// 
+/////////////////////////////////////////////////////////////////////////////
 //===========================================================================
-KRC_API krc_bool_t krc_hangul_11172_unicode_to_cp949 (krc_wchar_t unicode, krc_uchar16_t* cp949)
+KRC_API krc_bool_t krc_hangul_11172_unicode_to_cp949 (krc_wchar_t unicode, krc_char16_t* cp949)
 {
 	krc_int_t index;
 
@@ -507,7 +445,7 @@ KRC_API krc_bool_t krc_hangul_11172_unicode_to_cp949 (krc_wchar_t unicode, krc_u
 	return KRC_FALSE;
 }
 
-KRC_API krc_bool_t krc_special_1128_unicode_to_cp949 (krc_wchar_t unicode, krc_uchar16_t* cp949)
+KRC_API krc_bool_t krc_special_1128_unicode_to_cp949 (krc_wchar_t unicode, krc_char16_t* cp949)
 {
 	krc_int_t index;
 
@@ -525,7 +463,7 @@ KRC_API krc_bool_t krc_special_1128_unicode_to_cp949 (krc_wchar_t unicode, krc_u
 	return KRC_FALSE;
 }
 
-KRC_API krc_bool_t krc_hanja_4888_unicode_to_cp949 (krc_wchar_t unicode, krc_uchar16_t* cp949)
+KRC_API krc_bool_t krc_hanja_4888_unicode_to_cp949 (krc_wchar_t unicode, krc_char16_t* cp949)
 {
 	krc_int_t index;
 
@@ -543,74 +481,231 @@ KRC_API krc_bool_t krc_hanja_4888_unicode_to_cp949 (krc_wchar_t unicode, krc_uch
 	return KRC_FALSE;
 }
 
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+//===========================================================================
+typedef struct _mbcs_ostream
+{
+	krc_char_t* pointer;
+	krc_int_t length;
+	krc_int_t offset;
+}
+mbcs_ostream;
+
+static void mbcs_ostream_init(mbcs_ostream* ctx, krc_char_t* p, krc_int_t l)
+{
+	ctx->pointer = p;
+	ctx->length = l;
+	ctx->offset = 0;
+}
+
+static void mbcs_ostream_put_char(mbcs_ostream* ctx, krc_char_t c)
+{
+	if (ctx->offset < ctx->length)
+	{
+		*(ctx->pointer + ctx->offset) = c;
+		ctx->offset++;
+	}
+}
+
+static void mbcs_ostream_put_char8(mbcs_ostream* ctx, krc_char8_t c)
+{
+	if (ctx->offset < ctx->length)
+	{
+		*(ctx->pointer + ctx->offset) = (krc_char_t)c;
+		ctx->offset++;
+	}
+}
+
+static void mbcs_ostream_put_char16(mbcs_ostream* ctx, krc_char16_t c)
+{
+	if (ctx->offset+1 < ctx->length)
+	{
+		*(ctx->pointer + ctx->offset) = (krc_char_t)((c & 0xFF00u) >> 8u);
+		ctx->offset++;
+
+		*(ctx->pointer + ctx->offset) = (krc_char_t)(c & 0x00FFu);
+		ctx->offset++;
+	}
+}
+
 //===========================================================================
 KRC_API krc_int_t krc_unicode_to_cp949(krc_wchar_t* wcs_string, krc_int_t wcs_length, krc_char_t* mbcs_string, krc_int_t mbcs_length)
 {
-	krc_wchar_t   unicode;
-	krc_byte_t    ch1;
-	krc_uchar16_t ch2;
-	krc_int_t     wcs_index;
-	krc_int_t     mbcs_index;
+	mbcs_ostream o;
+
+
+	mbcs_ostream_init(&o, mbcs_string, mbcs_length);
+
+
+	krc_wchar_t  wcs;
+	krc_char8_t  ch1;
+	krc_char16_t mbcs;
 
 	
-	mbcs_index = 0;
-	for (wcs_index=0; *(wcs_string+wcs_index)!=0x0000u; wcs_index++)
+	krc_wchar_t* src;
+	krc_int_t index;
+	krc_int_t count;
+
+
+	src = wcs_string;
+	count = wcs_length;
+	for (index = 0; index < count; index++)
 	{
-		if (wcs_length>=0 && wcs_index>=wcs_length)
-			break;
-
-		if (mbcs_length>=0 && mbcs_index>=mbcs_length)
-			break;
-
-
-		unicode = *(wcs_string+wcs_index);
+		wcs = *(src + index);
 		
-
-		if (unicode < 0x0080u)
+		if (wcs == 0x00)
 		{
-			ch1 = (unicode & 0x00FFu);
-			*(mbcs_string + mbcs_index) = ch1;
-			mbcs_index++;
+			mbcs_ostream_put_char8(&o, 0u);
+			return o.offset;
 		}
-
-		else if (unicode < 0x0100u)
+		else if (wcs < 0x0080u)
 		{
-			ch1 = (unicode & 0x00FFu);
-			*(mbcs_string + mbcs_index) = ch1;
-			mbcs_index++;
+			ch1 = (krc_char8_t)(wcs & 0x00FFu);
+
+			mbcs_ostream_put_char8(&o, ch1);
+		}
+		else if (wcs < 0x0100u)
+		{
+			ch1 = (krc_char8_t)(wcs & 0x00FFu);
+
+			mbcs_ostream_put_char8(&o, ch1);
 		}
 
-		else if (krc_hangul_11172_unicode_to_cp949  (unicode, &ch2) == KRC_TRUE)
+		else if (krc_hangul_11172_unicode_to_cp949  (wcs, &mbcs) == KRC_TRUE)
 		{		
-			*(mbcs_string+mbcs_index  ) = (ch2 & 0xFF00u) >> 8u;
-			*(mbcs_string+mbcs_index+1) = (ch2 & 0x00FFu);
-			mbcs_index +=2;
+			mbcs_ostream_put_char16(&o, mbcs);
 		}
 
-		else if (krc_special_1128_unicode_to_cp949 (unicode, &ch2) == KRC_TRUE)
+		else if (krc_special_1128_unicode_to_cp949 (wcs, &mbcs) == KRC_TRUE)
 		{		
-			*(mbcs_string+mbcs_index  ) = (ch2 & 0xFF00u) >> 8u;
-			*(mbcs_string+mbcs_index+1) = (ch2 & 0x00FFu);
-			mbcs_index +=2;
+			mbcs_ostream_put_char16(&o, mbcs);
 		}
 
-		else if (krc_hanja_4888_unicode_to_cp949   (unicode, &ch2) == KRC_TRUE)
+		else if (krc_hanja_4888_unicode_to_cp949   (wcs, &mbcs) == KRC_TRUE)
 		{		
-			*(mbcs_string+mbcs_index  ) = (ch2 & 0xFF00u) >> 8u;
-			*(mbcs_string+mbcs_index+1) = (ch2 & 0x00FFu);
-			mbcs_index +=2;
+			mbcs_ostream_put_char16(&o, mbcs);
 		}
 
 		else
 		{
-			*(mbcs_string+mbcs_index) = 0x3Fu; // '?'
-			mbcs_index ++;
+			mbcs_ostream_put_char8(&o, 0x3Fu); // '?'
 		}
 	}
-	if (mbcs_index<mbcs_length)
+	mbcs_ostream_put_char8(&o, 0u);
+
+
+	return o.offset;
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+//===========================================================================
+typedef struct _wcs_ostream
+{
+	krc_wchar_t* pointer;
+	krc_int_t length;
+	krc_int_t offset;
+}
+wcs_ostream;
+
+static void wcs_ostream_init(wcs_ostream* ctx, krc_wchar_t* p, krc_int_t l)
+{
+	ctx->pointer = p;
+	ctx->length = l;
+	ctx->offset = 0;
+}
+
+static void wcs_ostream_put_wchar(wcs_ostream* ctx, krc_wchar_t c)
+{
+	if (ctx->offset < ctx->length)
 	{
-		*(mbcs_string+mbcs_index) = 0x00u;
+		*(ctx->pointer + ctx->offset) = c;
+		ctx->offset++;
 	}
-	
-	return mbcs_index;
+}
+
+//===========================================================================
+KRC_API krc_int_t krc_cp949_to_unicode(krc_char_t* mbcs_string, krc_int_t mbcs_length, krc_wchar_t* wcs_string, krc_int_t wcs_length)
+{
+	wcs_ostream o;
+
+
+	wcs_ostream_init(&o, wcs_string, wcs_length);
+
+
+	krc_wchar_t  wcs;
+	krc_char8_t  ch1;
+	krc_char8_t  ch2;
+	krc_char16_t mbcs;
+
+	krc_char_t* src;
+	krc_int_t index;
+	krc_int_t count;
+
+
+	src = mbcs_string;
+	count = mbcs_length;
+	for (index = 0; index < count; index++)
+	{
+		ch1 = (krc_char8_t)(*(src + index));
+
+
+		if (ch1 == 0x00)
+		{
+			wcs_ostream_put_wchar(&o, 0u);
+			return o.offset;
+		}
+		else if (ch1 < 0x80u)
+		{
+			// ASCII
+			wcs_ostream_put_wchar(&o, ch1);
+		}
+		else
+		{
+			if ((index + 1) <= count)
+			{
+				ch2 = (krc_char8_t)(*(src + index + 1));
+				mbcs = (ch1 << 8u) | ch2;
+
+
+				if (krc_hangul_11172_cp949_to_unicode(mbcs, &wcs) == KRC_TRUE)
+				{
+					wcs_ostream_put_wchar(&o, wcs);
+					index++;
+				}
+
+				else if (krc_special_1128_cp949_to_unicode(mbcs, &wcs) == KRC_TRUE)
+				{
+					wcs_ostream_put_wchar(&o, wcs);
+					index++;
+				}
+
+				else if (krc_hanja_4888_cp949_to_unicode(mbcs, &wcs) == KRC_TRUE)
+				{
+					wcs_ostream_put_wchar(&o, wcs);
+					index++;
+				}
+
+				else
+				{
+					wcs_ostream_put_wchar(&o, 0x003Fu); // '?'
+				}
+			}
+			else
+			{
+				wcs_ostream_put_wchar(&o, 0x003Fu); // '?'
+			}
+		}
+	}
+	wcs_ostream_put_wchar(&o, 0u);
+
+
+	return o.offset;
 }

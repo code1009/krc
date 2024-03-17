@@ -22,12 +22,13 @@ typedef unsigned int       krc_uint_t   ;
 
 //===========================================================================
 typedef unsigned int       krc_bool_t   ;
-typedef unsigned char      krc_byte_t   ;
 
 //===========================================================================
-typedef unsigned short int krc_wchar_t  ;
-typedef char               krc_char_t   ;
-typedef unsigned short int krc_uchar16_t;
+typedef char               krc_char_t;
+typedef unsigned short int krc_wchar_t;
+
+typedef unsigned char      krc_char8_t;
+typedef unsigned short int krc_char16_t;
 
 
 
@@ -37,7 +38,6 @@ typedef unsigned short int krc_uchar16_t;
 //===========================================================================
 #define KRC_TRUE  1u
 #define KRC_FALSE 0u
-#define KRC_NULL_POINTER 0u
 
 
 
