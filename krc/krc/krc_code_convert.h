@@ -30,11 +30,11 @@ KRC_API krc_int_t krc_hangul_11172_index_cp949(krc_char16_t ch);
 KRC_API krc_int_t krc_special_1128_index_cp949(krc_char16_t ch);
 KRC_API krc_int_t krc_hanja_4888_index_cp949(krc_char16_t ch);
 
-KRC_API krc_bool_t krc_hangul_11172_cp949_to_unicode(krc_char16_t cp949, krc_wchar_t* unicode);
+KRC_API krc_bool_t krc_hangul_51_11172_cp949_to_unicode(krc_char16_t cp949, krc_wchar_t* unicode);
 KRC_API krc_bool_t krc_special_1128_cp949_to_unicode(krc_char16_t cp949, krc_wchar_t* unicode);
 KRC_API krc_bool_t krc_hanja_4888_cp949_to_unicode(krc_char16_t cp949, krc_wchar_t* unicode);
 
-KRC_API krc_bool_t krc_hangul_11172_unicode_to_cp949(krc_wchar_t unicode, krc_char16_t* cp949);
+KRC_API krc_bool_t krc_hangul_51_11172_unicode_to_cp949(krc_wchar_t unicode, krc_char16_t* cp949);
 KRC_API krc_bool_t krc_special_1128_unicode_to_cp949(krc_wchar_t unicode, krc_char16_t* cp949);
 KRC_API krc_bool_t krc_hanja_4888_unicode_to_cp949(krc_wchar_t unicode, krc_char16_t* cp949);
 
