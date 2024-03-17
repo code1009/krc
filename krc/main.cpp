@@ -319,6 +319,16 @@ void test2(void)
 		mbcs, 1024);
 
 	tracelnA(mbcs);
+
+	cmp = memcmp((krc_char_t*)mbcs_string, mbcs, (krc_int_t)strlen(mbcs_string));
+	if (0 == cmp)
+	{
+		tracelnA("krc_utf8_to_cp949() ok");
+	}
+	else
+	{
+		tracelnA("krc_utf8_to_cp949() failed");
+	}
 	tracelnA("\r\n");
 
 
