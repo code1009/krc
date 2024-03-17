@@ -231,9 +231,112 @@ void test1(void)
 
 /////////////////////////////////////////////////////////////////////////////
 //===========================================================================
+#include <string>
+#include <vector>
+
+std::wstring mbcs_to_wcs(std::string input, UINT codepage=CP_ACP)
+{
+	int len = MultiByteToWideChar(codepage, 0, input.c_str(), -1, NULL, 0);
+
+
+	if (len > 0)
+	{
+		std::vector<wchar_t> buf(len);
+
+
+		MultiByteToWideChar(codepage, 0, input.c_str(), -1, &buf[0], len);
+
+		return std::wstring(&buf[0]);
+	}
+
+	return std::wstring();
+}
+
+std::string wcs_to_mbcs(std::wstring input, UINT codepage = CP_ACP)
+{
+	int len = WideCharToMultiByte(codepage, 0, input.c_str(), -1, NULL, 0, NULL, NULL);
+
+
+	if (len > 0)
+	{
+		std::vector<char> buf(len);
+
+
+		WideCharToMultiByte(codepage, 0, input.c_str(), -1, &buf[0], len, NULL, NULL);
+
+		return std::string(&buf[0]);
+	}
+
+	return std::string();
+}
+
+std::string utf8_to_mbcs(std::string /*input*/utf8, UINT codepage = CP_ACP)
+{
+	//	std::string  utf8 ;
+	std::wstring utf16;
+	std::string  mbcs;
+
+
+	//	utf8  = input;
+	utf16 = mbcs_to_wcs(utf8, CP_UTF8);
+	mbcs = wcs_to_mbcs(utf16, codepage);
+
+	return mbcs;
+}
+
+std::string mbcs_to_utf8(std::string /*input*/mbcs, UINT codepage = CP_ACP)
+{
+	std::string  utf8;
+	std::wstring utf16;
+	//	std::string  mbcs ;
+
+
+	//	mbcs  = input;
+	utf16 = mbcs_to_wcs(mbcs, codepage);
+	utf8 = wcs_to_mbcs(utf16, CP_UTF8);
+
+	return utf8;
+}
+
+
 void test2(void)
 {
+	/////////////////////////////////////////////////////////////////////////
+	//-----------------------------------------------------------------------
+	char    mbcs_string[] = { "AZaz09가힣갂좤좥힋힍힣0ㄱㅎㅏㅣ1伽詰一龜豈刺切廓2。3я4" };
+	char mbcs[1024];
+	char cp949[1024];
 
+	std::string utf8_string;
+
+	int mbcs_size;
+	int cp949_size;
+	int cmp;
+
+
+	utf8_string = mbcs_to_utf8(mbcs_string);
+	mbcs_size = krc_utf8_to_cp949((krc_char_t*)utf8_string.c_str(), (krc_int_t)utf8_string.size(),
+		mbcs, 1024);
+
+	tracelnA(mbcs);
+	tracelnA("\r\n");
+
+
+
+	cp949_size = krc_cp949_to_utf8((krc_char_t*)mbcs_string, strlen(mbcs_string),
+		cp949, 1024);
+
+	cmp = memcmp((krc_char_t*)utf8_string.c_str(), cp949, (krc_int_t)utf8_string.size());
+	if (0 == cmp)
+	{
+		tracelnA("krc_cp949_to_utf8() ok");
+	}
+	else
+	{
+		tracelnA("krc_cp949_to_utf8() failed");
+	}
+
+	tracelnA("\r\n");
 }
 
 
@@ -245,13 +348,19 @@ void test2(void)
 void test(void)
 {
 	tracelnA("//***************************************************************************");
+	tracelnA("// test0");
+	tracelnA("//***************************************************************************");
 	test0();
 	tracelnA("\r\n");
 
 	tracelnA("//***************************************************************************");
+	tracelnA("// test1");
+	tracelnA("//***************************************************************************");
 	test1();
 	tracelnA("\r\n");
 
+	tracelnA("//***************************************************************************");
+	tracelnA("// test2");
 	tracelnA("//***************************************************************************");
 	test2();
 	tracelnA("\r\n");
@@ -265,6 +374,16 @@ void test(void)
 //===========================================================================
 int main()
 {
+	//---------------------------------------------------------
+	/*
+	가
+	완성형 : 0xb0a1
+	조합형 : 0x8861
+	utf16  : 0xac00
+	utf8   : 234(0xEA), 176(0xB0), 128(0x80)
+	*/
+
+
     test();
 
     return 0;
