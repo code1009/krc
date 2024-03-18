@@ -608,7 +608,10 @@ std::wstring read_ucs2_text_file(std::string file_name)
 		ifs.read(reinterpret_cast<char*>(&code), 2);
 		if (!ifs.eof())
 		{
-			result.push_back(code);
+			if (2 == ifs.gcount())
+			{
+				result.push_back(code);
+			}
 		}
 	}
 
