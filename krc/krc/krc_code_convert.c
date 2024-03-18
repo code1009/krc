@@ -278,15 +278,15 @@ KRC_API krc_uint_t krc_code_type_unicode(krc_wchar_t ch)
 	// 0x4E00u '一' - 0x9F9Cu '龜'
 	// 0xF900u '豈' - 0xF9FFu '刺'
 	// 0xFA00u '切' - 0xFA0Bu '廓'
-	if (0x4E00u <= ch && ch <= 0x9F9C)
+	if (0x4E00u <= ch && ch <= 0x9F9Cu)
 	{
 		return KRC_CODE_TYPE_HANJA_4888;
 	}
-	if (0xF900u <= ch && ch <= 0xF9FF)
+	if (0xF900u <= ch && ch <= 0xF9FFu)
 	{
 		return KRC_CODE_TYPE_HANJA_4888;
 	}
-	if (0xFA00u <= ch && ch <= 0xFA0B)
+	if (0xFA00u <= ch && ch <= 0xFA0Bu)
 	{
 		return KRC_CODE_TYPE_HANJA_4888;
 	}
