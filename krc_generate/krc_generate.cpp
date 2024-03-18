@@ -582,6 +582,31 @@ std::string get_file_path(std::string file_name)
 	return file_path;
 }
 
+#if 0
+#include <fstream>
+#include <iostream>
+using namespace std;
+#include <process.h>              //for exit()
+int main(int argc, char* argv[])
+{
+	if (argc != 2)
+	{
+		cerr << "\nFormat: filename\n"; exit(-1);
+	}
+	ifstream infile;               //create file for input
+	infile.open(argv[1]);        //open file
+	if (!infile)                  //check for errors
+	{
+		cerr << "\nCan't open " << argv[1]; exit(-1);
+	}
+	infile.seekg(0, ios::end);     //go to end of file
+	// report byte number
+	cout << "Size of " << argv[1] << " is " << infile.tellg();
+	cout << endl;//from   w ww  . ja v  a  2  s . c  o m
+	return 0;
+}
+#endif
+
 std::wstring read_ucs2_text_file(std::string file_name)
 {
 	std::wstring result;
