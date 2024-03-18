@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "krc", "krc\krc.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "krc_unit_test", "krc_unit_test\krc_unit_test.vcxproj", "{38E53F03-6151-43BA-A0D3-57074A367F03}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "krc_code_generate", "krc_code_generate\krc_code_generate.vcxproj", "{341E89C7-337D-4636-AA51-103A8FA1E692}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "krc_generate", "krc_generate\krc_generate.vcxproj", "{341E89C7-337D-4636-AA51-103A8FA1E692}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

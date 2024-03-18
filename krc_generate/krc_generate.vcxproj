@@ -151,7 +151,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4018;</DisableSpecificWarnings>
     </ClCompile>
-    <ClCompile Include="krc_code_generate.cpp" />
+    <ClCompile Include="krc_generate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\iconv\aliases.h" />

@@ -18,7 +18,7 @@
     <ClCompile Include="..\iconv\relocatable.c">
       <Filter>iconv</Filter>
     </ClCompile>
-    <ClCompile Include="krc_code_generate.cpp">
+    <ClCompile Include="krc_generate.cpp">
       <Filter>main</Filter>
     </ClCompile>
   </ItemGroup>
