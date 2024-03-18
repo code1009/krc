@@ -351,7 +351,6 @@ std::string get_directory_of_file_path(std::string file_path)
 	return result;
 }
 
-
 std::string get_file_of_file_path(std::string file_path)
 {
 	std::string result;
