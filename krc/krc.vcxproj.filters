@@ -54,4 +54,9 @@
       <Filter>krc</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Filter>main</Filter>
+    </None>
+  </ItemGroup>
 </Project>

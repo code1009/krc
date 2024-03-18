@@ -164,6 +164,9 @@
     <ClInclude Include="krc\krc_config.h" />
     <ClInclude Include="krc\krc_type.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
